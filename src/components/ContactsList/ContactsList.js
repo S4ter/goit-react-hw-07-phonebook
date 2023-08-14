@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './ContactsList.styles.css';
-import { useSelector } from 'react-redux';
 import { Contact } from 'components/Contact/Contact';
+import { useSelector } from 'react-redux';
 
 export const ContactsList = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => {
+    return state.contacts.items;
+  });
+  console.log(typeof contacts, Array.isArray(contacts), 'kontakty');
   const [searchInputValue, setSearchInputValue] = useState('');
   const handleSearchInput = e => {
     e.preventDefault();

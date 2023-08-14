@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
+
 import './PhonebookForm.styles.css';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/actions';
@@ -7,21 +7,20 @@ import { addContact } from 'redux/actions';
 export const PhonebookForm = () => {
   const dispatch = useDispatch();
   const [contact, setContact] = useState({
-    id: nanoid(),
     name: '',
     number: '',
   });
-
+  const handleSubmit = event => {
+    event.preventDefault();
+    dispatch(addContact({ name: contact.name, number: contact.number }));
+  };
   const handleChangeInput = e => {
     setContact(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
-  const handleSubmit = event => {
-    event.preventDefault();
-    dispatch(addContact(contact.name, contact.number));
-  };
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="phonebook_form">
