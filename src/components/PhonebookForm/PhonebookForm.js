@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './PhonebookForm.styles.css';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/actions';
@@ -12,7 +11,9 @@ export const PhonebookForm = () => {
   });
   const handleSubmit = event => {
     event.preventDefault();
+    const form = event.target;
     dispatch(addContact({ name: contact.name, number: contact.number }));
+    form.reset();
   };
   const handleChangeInput = e => {
     setContact(prevState => ({
