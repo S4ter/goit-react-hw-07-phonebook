@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import './PhonebookForm.styles.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/actions';
 
 export const PhonebookForm = () => {
   const dispatch = useDispatch();
+  const contactsFromApi = useSelector(state => {
+    return state.contacts.items;
+  });
+
   const [contact, setContact] = useState({
     name: '',
     number: '',
@@ -12,8 +16,18 @@ export const PhonebookForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const form = event.target;
-    dispatch(addContact({ name: contact.name, number: contact.number }));
-    form.reset();
+    if (
+      contactsFromApi.some(
+        contact => contact.number === event.target.elements.number.value
+      )
+    ) {
+      alert(
+        `Contact with number: ${event.target.elements.number.value} already exist.`
+      );
+    } else {
+      dispatch(addContact({ name: contact.name, number: contact.number }));
+      form.reset();
+    }
   };
   const handleChangeInput = e => {
     setContact(prevState => ({
